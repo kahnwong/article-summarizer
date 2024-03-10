@@ -1,0 +1,9 @@
+# ide
+.idea
+
+# python
+.ipynb_checkpoints
+__pycache__
+
+# secrets
+.env

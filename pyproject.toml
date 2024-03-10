@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "article-summarizer"
+version = "0.1.0"
+description = ""
+authors = ["kahnwong <karn@karnwong.me>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+transformers = "^4.35.2"
+torch = "^2.1.1"
+fastapi = "^0.104.1"
+uvicorn = "^0.24.0.post1"
+pydantic = "^2.5.2"
+python-dotenv = "^1.0.0"
+
+[tool.poetry.group.dev.dependencies]
+jupyterlab = "^4.0.9"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

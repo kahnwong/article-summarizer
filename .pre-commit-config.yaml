@@ -65,3 +65,12 @@ repos:
     hooks:
       - id: poetry-export
         args: ["--without-hashes", "-f", "requirements.txt", "-o", "requirements.txt"]
+  - repo: local
+    hooks:
+      - id: mypy
+        name: mypy
+        entry: "bash ./tests/run_mypy.sh"
+        language: system
+        types: [python]
+        pass_filenames: false
+        require_serial: true

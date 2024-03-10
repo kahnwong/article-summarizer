@@ -10,8 +10,8 @@ app = FastAPI(title="article_summarizer")
 #######################
 # init
 #######################
-tokenizer = AutoTokenizer.from_pretrained("google/gemma-2b-it", max_length=100)
-model = AutoModelForCausalLM.from_pretrained("google/gemma-2b-it", max_length=100)
+tokenizer = AutoTokenizer.from_pretrained("google/gemma-2b", max_length=100)
+model = AutoModelForCausalLM.from_pretrained("google/gemma-2b")
 
 
 #######################

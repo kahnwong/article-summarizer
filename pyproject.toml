@@ -15,8 +15,12 @@ pydantic = "^2.5.2"
 python-dotenv = "^1.0.0"
 
 [tool.poetry.group.dev.dependencies]
-jupyterlab = "^4.0.9"
+jupyter = "^1.0.0"
 
+
+
+[tool.poetry.group.tests.dependencies]
+mypy = "^1.9.0"
 
 [build-system]
 requires = ["poetry-core"]

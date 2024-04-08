@@ -25,7 +25,7 @@ async def root():
 @app.post("/", response_model=ResponseItem)
 async def main(request: RequestItem) -> ResponseItem:
     input_text = f"summarize: {request.content}"
-    input_ids = tokenizer(input_text, return_tensors="pt")
+    input_ids = tokenizer(input_text, return_tensors="pt", max_length=100)
 
     outputs = model.generate(**input_ids)
 

@@ -1,8 +1,14 @@
 import json
+import os
 
 import requests  # type: ignore
 from bs4 import BeautifulSoup  # type: ignore
+from dotenv import load_dotenv
 from readability import Document  # type: ignore
+
+load_dotenv()
+
+BASE_URL = os.getenv("OLLAMA_BASE_URL")
 
 
 def extract_article(url: str) -> tuple[str, str]:
@@ -19,11 +25,11 @@ def extract_article(url: str) -> tuple[str, str]:
 
 def summarize_article(text: str) -> str:
     r = requests.post(
-        "http://localhost:11434/api/generate",
+        f"{BASE_URL}/api/generate",
         data=json.dumps(
             {
                 "model": "gemma:7b",
-                "prompt": f" summarize following text: {text}",
+                "prompt": f"summarize following text: {text}",
                 "stream": False,
             }
         ),

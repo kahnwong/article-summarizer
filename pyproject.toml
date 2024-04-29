@@ -7,14 +7,12 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
-pydantic = "^2.5.2"
 python-dotenv = "^1.0.0"
-readability-lxml = "^0.8.1"
-summary = "^0.2.0"
-lxml-html-clean = "^0.1.1"
 beautifulsoup4 = "^4.12.3"
-streamlit = "^1.33.0"
+lxml-html-clean = "^0.1.1"
+readability-lxml = "^0.8.1"
 requests = "^2.31.0"
+streamlit = "^1.33.0"
 
 [tool.poetry.group.dev.dependencies]
 jupyter = "^1.0.0"

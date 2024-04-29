@@ -26,9 +26,7 @@ def summarize_article(text: str) -> Generator[str, None, None]:
     model_name = "gemma:7b"
     prompt = f"summarize following text into four paragraphs: {text}"
 
-    stream = client.chat(
-        model=model_name, messages=[{"role": "user", "content": prompt}], stream=True
-    )
+    stream = client.generate(model=model_name, prompt=prompt, stream=True)
 
     for chunk in stream:
-        yield chunk["message"]["content"]
+        yield chunk["response"]

@@ -1696,6 +1696,20 @@ files = [
 ]
 
 [[package]]
+name = "ollama"
+version = "0.1.9"
+description = "The official Python client for Ollama."
+optional = false
+python-versions = "<4.0,>=3.8"
+files = [
+    {file = "ollama-0.1.9-py3-none-any.whl", hash = "sha256:46d4b4028ac5cbb30a8128ba60967171fbb523c25c832c0f3f090989e5441033"},
+    {file = "ollama-0.1.9.tar.gz", hash = "sha256:f64484b280db0fa03fb899580d8a3a85af3787fd2a85b67669b743e313b3faf1"},
+]
+
+[package.dependencies]
+httpx = ">=0.27.0,<0.28.0"
+
+[[package]]
 name = "overrides"
 version = "7.7.0"
 description = "A decorator to automatically detect mismatch when overriding a method."
@@ -3016,4 +3030,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "f758cbf0b7baea21b2725ed5680d9fbdfe0131a7bb7656ddd21d2b4bbe97ec0d"
+content-hash = "b5239e8d88db3208886005895bd322dfec71767f78100d14ec8785b4142c9fad"

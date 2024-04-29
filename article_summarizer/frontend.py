@@ -3,7 +3,6 @@ import streamlit as st
 from article_summarizer.summarizer import extract_article
 from article_summarizer.summarizer import summarize_article
 
-
 st.title("Article Summarizer")
 
 url = st.text_input(label="Enter article url", key="url")
@@ -16,4 +15,4 @@ if url and submit_button:
     st.header(title)
     st.markdown("---")
 
-    st.markdown(summary)
+    st.write_stream(summary)

@@ -1,2 +1,5 @@
+ollama-serve:
+	ollama serve
+
 start:
-	uvicorn article_summarizer.main:app --port 8080 --reload
+	streamlit run article_summarizer/frontend.py --server.port 8501

@@ -13,9 +13,7 @@ client = Client(host=os.getenv("OLLAMA_HOST"))
 
 
 def extract_article(url: str) -> tuple[str, str]:
-    response = requests.get(
-        "https://scottberkun.com/2021/why-bad-ceos-fear-remote-work/"
-    )
+    response = requests.get(url)
     doc = Document(response.content)
     title = doc.title()
 
@@ -26,7 +24,7 @@ def extract_article(url: str) -> tuple[str, str]:
 
 def summarize_article(text: str) -> Generator[str, None, None]:
     model_name = "gemma:7b"
-    prompt = f"summarize following text: {text}"
+    prompt = f"summarize following text into four paragraphs: {text}"
 
     stream = client.chat(
         model=model_name, messages=[{"role": "user", "content": prompt}], stream=True

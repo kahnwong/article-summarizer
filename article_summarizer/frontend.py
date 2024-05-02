@@ -3,6 +3,16 @@ import streamlit as st
 from article_summarizer.summarizer import extract_article
 from article_summarizer.summarizer import summarize_article
 
+
+def get_summary(text: str, model_name):
+    # st.subheader(model_name)
+    summary = summarize_article(text, model_name)
+
+    st.markdown("---")
+
+    st.write_stream(summary)
+
+
 st.title("Article Summarizer")
 
 with st.sidebar:
@@ -11,9 +21,13 @@ with st.sidebar:
 
 if url and submit_button:
     title, text = extract_article(url)
-    summary = summarize_article(text)
-
     st.header(title)
-    st.markdown("---")
 
-    st.write_stream(summary)
+    get_summary(text, model_name="gemma:7b")
+
+    # summary = summarize_article(text)
+    #
+    # st.header(title)
+    # st.markdown("---")
+    #
+    # st.write_stream(summary)

@@ -22,8 +22,9 @@ def extract_article(url: str) -> tuple[str, str]:
     return title, soup.get_text()
 
 
-def summarize_article(text: str) -> Generator[str, None, None]:
-    model_name = "gemma:7b"
+def summarize_article(
+    text: str, model_name: str = "gemma:7b"
+) -> Generator[str, None, None]:
     prompt = f"summarize following text into four paragraphs: {text}"
 
     stream = client.generate(model=model_name, prompt=prompt, stream=True)

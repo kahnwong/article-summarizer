@@ -32,7 +32,7 @@ def summarize_article(text: str, language: str) -> Generator[str, None, None]:
     model_name = "kahnwong/gemma-1.1:7b-it"
 
     if language == "th":
-        prompt += "Responsd in Thai language."
+        prompt += "Respond in Thai language."
         model_name = "kahnwong/typhoon-1.5:8b"
 
     stream = client.generate(model=model_name, prompt=prompt, stream=True)

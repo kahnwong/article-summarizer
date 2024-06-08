@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
 
 	"github.com/pemistahl/lingua-go"
 
@@ -94,13 +95,25 @@ var rootCmd = &cobra.Command{
 	Short: "Summarize an article with LLM",
 	Run: func(cmd *cobra.Command, args []string) {
 		// validate input
+		var url string
 		if len(args) == 0 {
-			fmt.Println("Please specify URL")
-			os.Exit(1)
+			urlFromClipboard := ReadFromClipboard()
+			if urlFromClipboard != "" {
+				if strings.HasPrefix(urlFromClipboard, "https://") {
+					url = urlFromClipboard
+				}
+			}
 		}
-
+		if url == "" {
+			if len(args) == 0 {
+				fmt.Println("Please specify URL")
+				os.Exit(1)
+			} else if len(args) == 1 {
+				url = args[0]
+			}
+		}
 		// extract article
-		article, err := extractArticle(args[0])
+		article, err := extractArticle(url)
 		if err != nil {
 			log.Fatal(err)
 		}

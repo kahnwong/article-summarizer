@@ -117,6 +117,10 @@ var rootCmd = &cobra.Command{
 		if err != nil {
 			log.Fatal(err)
 		}
+		if article.Content == "" {
+			fmt.Println("Could not extract article")
+			os.Exit(1)
+		}
 
 		// print article title
 		fmt.Printf("========== %s ==========\n", article.Title)

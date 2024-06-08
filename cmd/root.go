@@ -9,6 +9,8 @@ import (
 	"log"
 	"os"
 
+	"github.com/pemistahl/lingua-go"
+
 	goose "github.com/advancedlogic/GoOse"
 
 	"github.com/ollama/ollama/api"
@@ -16,24 +18,48 @@ import (
 )
 
 type article struct {
-	Title   string
-	Content string
+	Title    string
+	Content  string
+	Language string
+}
+
+func detectLanguage(content string) string {
+	languages := []lingua.Language{
+		lingua.English,
+		lingua.Thai,
+	}
+
+	detector := lingua.NewLanguageDetectorBuilder().
+		FromLanguages(languages...).
+		Build()
+
+	var output string
+	if language, exists := detector.DetectLanguageOf(content); exists {
+		output = language.String()
+	}
+
+	return output
 }
 
 func extractArticle(url string) (article, error) {
 	g := goose.New()
 	articleData, err := g.ExtractFromURL(url)
 
-	return article{Title: articleData.Title, Content: articleData.CleanedText}, err
+	// detect language
+	language := detectLanguage(articleData.CleanedText)
+
+	return article{Title: articleData.Title, Content: articleData.CleanedText, Language: language}, err
 }
 
-func summarize(content string) error {
-	// prep
+func summarize(content string, language string) error {
+	// set parameters
 	ollamaModel := "kahnwong/gemma-1.1:7b-it"
+	prompt := fmt.Sprintf("summarize following text into four paragraphs: %s.", content)
 
-	//if language == "th":
-	//prompt += "Respond in Thai language."
-	//model_name = "kahnwong/typhoon-1.5:8b"
+	if language == "Thai" {
+		prompt += "Respond in Thai language."
+		ollamaModel = "kahnwong/typhoon-1.5:8b"
+	}
 
 	// init ollama
 	client, err := api.ClientFromEnvironment()
@@ -44,7 +70,7 @@ func summarize(content string) error {
 	// ollama request payload
 	req := &api.GenerateRequest{
 		Model:  ollamaModel,
-		Prompt: fmt.Sprintf("summarize following text into four paragraphs: %s.", content),
+		Prompt: prompt,
 	}
 
 	// render results
@@ -84,7 +110,7 @@ var rootCmd = &cobra.Command{
 		fmt.Println("")
 
 		// summarize
-		err = summarize(article.Content)
+		err = summarize(article.Content, article.Language)
 		if err != nil {
 			log.Fatal(err)
 		}

@@ -9,9 +9,23 @@ import (
 	"log"
 	"os"
 
+	goose "github.com/advancedlogic/GoOse"
+
 	"github.com/ollama/ollama/api"
 	"github.com/spf13/cobra"
 )
+
+type article struct {
+	Title   string
+	Content string
+}
+
+func extractArticle(url string) (article, error) {
+	g := goose.New()
+	articleData, err := g.ExtractFromURL(url)
+
+	return article{Title: articleData.Title, Content: articleData.CleanedText}, err
+}
 
 func summarize(content string) error {
 	// prep
@@ -53,7 +67,24 @@ var rootCmd = &cobra.Command{
 	Use:   "article-summarizer",
 	Short: "Summarize an article with LLM",
 	Run: func(cmd *cobra.Command, args []string) {
-		err := summarize("I'm a swimmer from a faraway land")
+		// validate input
+		if len(args) == 0 {
+			fmt.Println("Please specify URL")
+			os.Exit(1)
+		}
+
+		// extract article
+		article, err := extractArticle(args[0])
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		// print article title
+		fmt.Printf("========== %s ==========\n", article.Title)
+		fmt.Println("")
+
+		// summarize
+		err = summarize(article.Content)
 		if err != nil {
 			log.Fatal(err)
 		}

@@ -10,8 +10,8 @@ import (
 	"os"
 	"strings"
 
+	"github.com/MasterDimmy/go-cls"
 	goose "github.com/advancedlogic/GoOse"
-
 	"github.com/ollama/ollama/api"
 	"github.com/spf13/cobra"
 )
@@ -85,6 +85,9 @@ var rootCmd = &cobra.Command{
 	Use:   "article-summarizer",
 	Short: "Summarize an article with LLM",
 	Run: func(cmd *cobra.Command, args []string) {
+		// Clears the screen
+		cls.CLS()
+
 		// validate input
 		var url string
 		if len(args) == 0 {
@@ -103,6 +106,7 @@ var rootCmd = &cobra.Command{
 				url = args[0]
 			}
 		}
+
 		// extract article
 		article, err := extractArticle(url)
 		if err != nil {

@@ -3,6 +3,7 @@ module github.com/kahnwong/article-summarizer
 go 1.22.2
 
 require (
+	github.com/MasterDimmy/go-cls v0.0.1
 	github.com/advancedlogic/GoOse v0.0.0-20231203033844-ae6b36caf275
 	github.com/ollama/ollama v0.1.42
 	github.com/spf13/cobra v1.8.0

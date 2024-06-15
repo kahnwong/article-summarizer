@@ -10,8 +10,6 @@ import (
 	"os"
 	"strings"
 
-	"github.com/pemistahl/lingua-go"
-
 	goose "github.com/advancedlogic/GoOse"
 
 	"github.com/ollama/ollama/api"
@@ -25,21 +23,14 @@ type article struct {
 }
 
 func detectLanguage(content string) string {
-	languages := []lingua.Language{
-		lingua.English,
-		lingua.Thai,
+	var language string
+	if !strings.Contains(content, "ก") {
+		language = "English"
+	} else {
+		language = "Thai"
 	}
 
-	detector := lingua.NewLanguageDetectorBuilder().
-		FromLanguages(languages...).
-		Build()
-
-	var output string
-	if language, exists := detector.DetectLanguageOf(content); exists {
-		output = language.String()
-	}
-
-	return output
+	return language
 }
 
 func extractArticle(url string) (article, error) {

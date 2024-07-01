@@ -55,7 +55,7 @@ func detectLanguage(content string) string {
 
 func summarize(content string, language string) error {
 	// set parameters
-	ollamaModel := "gemma2:latest"
+	ollamaModel := "kahnwong/gemma-1.1:7b-it"
 	prompt := fmt.Sprintf("summarize following text into four paragraphs: %s.", content)
 
 	if language == "Thai" {

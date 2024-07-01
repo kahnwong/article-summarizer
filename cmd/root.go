@@ -10,15 +10,34 @@ import (
 	"os"
 	"strings"
 
-	goose "github.com/advancedlogic/GoOse"
 	"github.com/ollama/ollama/api"
+
+	"github.com/Strubbl/wallabago/v9"
+	"github.com/charmbracelet/huh"
 	"github.com/spf13/cobra"
 )
 
-type article struct {
-	Title    string
-	Content  string
-	Language string
+func getEntries() ([]wallabago.Item, error) {
+	// get newest 5 articles
+	entries, err := wallabago.GetEntries(
+		wallabago.APICall,
+		0, 0, "", "", 1, 5, "", 0, -1, "", "")
+	if err != nil {
+		return nil, err
+	}
+
+	return entries.Embedded.Items, err
+}
+
+func createFormOptions(entries []wallabago.Item) []huh.Option[string] {
+	var options []huh.Option[string]
+
+	for _, v := range entries {
+		options = append(options, huh.NewOption(v.Title, v.Title).Selected(true))
+
+	}
+
+	return options
 }
 
 func detectLanguage(content string) string {
@@ -30,16 +49,6 @@ func detectLanguage(content string) string {
 	}
 
 	return language
-}
-
-func extractArticle(url string) (article, error) {
-	g := goose.New()
-	articleData, err := g.ExtractFromURL(url)
-
-	// detect language
-	language := detectLanguage(articleData.CleanedText)
-
-	return article{Title: articleData.Title, Content: articleData.CleanedText, Language: language}, err
 }
 
 func summarize(content string, language string) error {
@@ -87,25 +96,45 @@ var rootCmd = &cobra.Command{
 		// Clears the screen
 		ClearScreen()
 
-		// get url
-		url := getUrl(args)
+		// ------------ get entries ------------ //
+		wallabago.SetConfig(wallabagConfig)
 
-		// extract article
-		article, err := extractArticle(url)
+		entries, err := getEntries()
+		if err != nil {
+			log.Println("Cannot obtain articles from Wallabag")
+		}
+
+		var (
+			entryTitle string
+		)
+
+		// ------------ select article ------------ //
+		formEntries := huh.NewForm(
+			huh.NewGroup(
+				huh.NewSelect[string]().
+					Title("Choose an article to summarize").
+					Options(
+						createFormOptions(entries)...,
+					).
+					Value(&entryTitle),
+			),
+		)
+		err = formEntries.Run()
 		if err != nil {
 			log.Fatal(err)
 		}
-		if article.Content == "" {
-			fmt.Println("Could not extract article")
-			os.Exit(1)
+
+		// ------------ summarize ------------ //
+		fmt.Printf("========== %s ==========\n", entryTitle)
+
+		var content string
+		for _, entry := range entries {
+			if entry.Title == entryTitle {
+				content = entry.Content
+			}
 		}
 
-		// print article title
-		fmt.Printf("========== %s ==========\n", article.Title)
-		fmt.Println("")
-
-		// summarize
-		err = summarize(article.Content, article.Language)
+		err = summarize(content, detectLanguage(content))
 		if err != nil {
 			log.Fatal(err)
 		}

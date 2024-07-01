@@ -44,7 +44,7 @@ func extractArticle(url string) (article, error) {
 
 func summarize(content string, language string) error {
 	// set parameters
-	ollamaModel := "kahnwong/gemma-1.1:7b-it"
+	ollamaModel := "gemma2:latest"
 	prompt := fmt.Sprintf("summarize following text into four paragraphs: %s.", content)
 
 	if language == "Thai" {

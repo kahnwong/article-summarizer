@@ -10,6 +10,8 @@ import (
 	"os"
 	"strings"
 
+	"github.com/microcosm-cc/bluemonday"
+
 	"github.com/ollama/ollama/api"
 
 	"github.com/Strubbl/wallabago/v9"
@@ -134,7 +136,12 @@ var rootCmd = &cobra.Command{
 			}
 		}
 
-		err = summarize(content, detectLanguage(content))
+		p := bluemonday.StripTagsPolicy()
+		contentSanitized := p.Sanitize(
+			content,
+		)
+
+		err = summarize(contentSanitized, detectLanguage(content))
 		if err != nil {
 			log.Fatal(err)
 		}

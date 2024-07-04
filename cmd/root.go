@@ -35,8 +35,7 @@ func createFormOptions(entries []wallabago.Item) []huh.Option[string] {
 	var options []huh.Option[string]
 
 	for _, v := range entries {
-		options = append(options, huh.NewOption(v.Title, v.Title).Selected(true))
-
+		options = append(options, huh.NewOption(v.Title, v.Title))
 	}
 
 	return options

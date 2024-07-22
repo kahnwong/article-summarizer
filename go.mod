@@ -8,7 +8,7 @@ require (
 	github.com/getsops/sops/v3 v3.9.0
 	github.com/microcosm-cc/bluemonday v1.0.26
 	github.com/ollama/ollama v0.1.42
-	github.com/spf13/cobra v1.8.0
+	github.com/spf13/cobra v1.8.1
 	gopkg.in/yaml.v3 v3.0.1
 )
 

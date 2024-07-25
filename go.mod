@@ -7,7 +7,7 @@ require (
 	github.com/charmbracelet/huh v0.5.1
 	github.com/getsops/sops/v3 v3.9.0
 	github.com/microcosm-cc/bluemonday v1.0.27
-	github.com/ollama/ollama v0.2.7
+	github.com/ollama/ollama v0.3.0
 	github.com/spf13/cobra v1.8.1
 	gopkg.in/yaml.v3 v3.0.1
 )

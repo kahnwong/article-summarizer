@@ -6,9 +6,10 @@ package cmd
 import (
 	"context"
 	"fmt"
-	"log"
 	"os"
 	"strings"
+
+	"github.com/rs/zerolog/log"
 
 	"github.com/microcosm-cc/bluemonday"
 
@@ -65,7 +66,7 @@ func summarize(content string, language string) error {
 	// init ollama
 	client, err := api.ClientFromEnvironment()
 	if err != nil {
-		log.Fatal(err)
+		log.Error().Msg("Could not init ollama client")
 	}
 
 	// ollama request payload
@@ -84,7 +85,7 @@ func summarize(content string, language string) error {
 	// main
 	err = client.Generate(ctx, req, respFunc)
 	if err != nil {
-		log.Fatal(err)
+		log.Error().Msg("Could not generate text")
 	}
 
 	return err
@@ -102,7 +103,7 @@ var rootCmd = &cobra.Command{
 
 		entries, err := getEntries()
 		if err != nil {
-			log.Println("Cannot obtain articles from Wallabag")
+			log.Error().Msg("Cannot obtain articles from Wallabag")
 		}
 
 		var (
@@ -122,7 +123,7 @@ var rootCmd = &cobra.Command{
 		)
 		err = formEntries.Run()
 		if err != nil {
-			log.Fatal(err)
+			log.Error().Msg("Could not init TUI")
 		}
 
 		// ------------ summarize ------------ //
@@ -142,7 +143,7 @@ var rootCmd = &cobra.Command{
 
 		err = summarize(contentSanitized, detectLanguage(content))
 		if err != nil {
-			log.Fatal(err)
+			log.Error().Msg("Could not summarize article")
 		}
 	},
 }

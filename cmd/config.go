@@ -5,23 +5,12 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/Strubbl/wallabago/v9"
 	"github.com/getsops/sops/v3/decrypt"
 	"github.com/rs/zerolog/log"
 	"gopkg.in/yaml.v3"
 )
 
-var wallabagConfig = createWallabagConfig()
-
-type Config struct {
-	WallabagUrl  string `yaml:"WALLABAG_URL"`
-	ClientID     string `yaml:"CLIENT_ID"`
-	ClientSecret string `yaml:"CLIENT_SECRET"`
-	Username     string `yaml:"USERNAME"`
-	Password     string `yaml:"PASSWORD"`
-}
-
-func readConfig() Config {
+func readConfig() WallabagConfig {
 	homeDir, err := os.UserHomeDir()
 	if err != nil {
 		log.Error().Err(err)
@@ -36,7 +25,7 @@ func readConfig() Config {
 		os.Exit(1)
 	}
 
-	var config Config
+	var config WallabagConfig
 
 	data, err := decrypt.File(filename, "yaml")
 	if err != nil {
@@ -49,16 +38,4 @@ func readConfig() Config {
 	}
 
 	return config
-}
-
-func createWallabagConfig() wallabago.WallabagConfig {
-	config := readConfig()
-
-	return wallabago.WallabagConfig{
-		WallabagURL:  config.WallabagUrl,
-		ClientID:     config.ClientID,
-		ClientSecret: config.ClientSecret,
-		UserName:     config.Username,
-		UserPassword: config.Password,
-	}
 }

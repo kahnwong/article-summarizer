@@ -25,7 +25,10 @@ var rootCmd = &cobra.Command{
 		ClearScreen()
 
 		// ------------ get entries ------------ //
-		entries := getEntries()
+		entries, err := getEntries()
+		if err != nil {
+			log.Fatal().Err(err).Msg("Cannot obtain articles from Wallabag")
+		}
 
 		// ------------ select article ------------ //
 		formEntries := huh.NewForm(
@@ -38,9 +41,9 @@ var rootCmd = &cobra.Command{
 					Value(&entryTitle),
 			),
 		)
-		err := formEntries.Run()
+		err = formEntries.Run()
 		if err != nil {
-			log.Error().Msg("Could not init TUI")
+			log.Fatal().Err(err).Msg("Could not init TUI")
 		}
 
 		// ------------ summarize ------------ //

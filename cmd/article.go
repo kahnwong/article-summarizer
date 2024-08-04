@@ -45,7 +45,7 @@ func summarize(content string, language string) {
 	// init ollama
 	client, err := api.ClientFromEnvironment()
 	if err != nil {
-		log.Error().Msg("Could not init ollama client")
+		log.Fatal().Msg("Could not init ollama client")
 	}
 
 	// ollama request payload

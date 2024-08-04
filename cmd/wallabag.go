@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"github.com/Strubbl/wallabago/v9"
-	"github.com/rs/zerolog/log"
 )
 
 type WallabagConfig struct {
@@ -26,14 +25,11 @@ func init() {
 	wallabago.SetConfig(wallabagConfig)
 }
 
-func getEntries() []wallabago.Item {
+func getEntries() ([]wallabago.Item, error) {
 	// get newest 5 articles
 	entries, err := wallabago.GetEntries(
 		wallabago.APICall,
 		0, 0, "", "", 1, 5, "", 0, -1, "", "")
-	if err != nil {
-		log.Error().Msg("Cannot obtain articles from Wallabag")
-	}
 
-	return entries.Embedded.Items
+	return entries.Embedded.Items, err
 }

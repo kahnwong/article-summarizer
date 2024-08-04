@@ -43,7 +43,7 @@ var rootCmd = &cobra.Command{
 		)
 		err = formEntries.Run()
 		if err != nil {
-			log.Fatal().Err(err).Msg("Could not init TUI")
+			log.Fatal().Err(err)
 		}
 
 		// ------------ summarize ------------ //

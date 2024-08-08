@@ -7,8 +7,10 @@ import (
 
 	"github.com/Strubbl/wallabago/v9"
 	"github.com/charmbracelet/huh"
-	"github.com/ollama/ollama/api"
+	"github.com/google/generative-ai-go/genai"
 	"github.com/rs/zerolog/log"
+	"google.golang.org/api/iterator"
+	"google.golang.org/api/option"
 )
 
 func createFormOptions(entries []wallabago.Item) []huh.Option[string] {
@@ -34,36 +36,64 @@ func detectLanguage(content string) string {
 
 func summarize(content string, language string) {
 	// set parameters
-	ollamaModel := "kahnwong/gemma-1.1:7b-it"
+	//ollamaModel := "kahnwong/gemma-1.1:7b-it"
 	prompt := fmt.Sprintf("summarize following text into four paragraphs: %s.", content)
 
 	if language == "Thai" {
 		prompt += "Respond in Thai language."
-		ollamaModel = "kahnwong/typhoon-1.5:8b"
+		//	ollamaModel = "kahnwong/typhoon-1.5:8b"
 	}
 
-	// init ollama
-	client, err := api.ClientFromEnvironment()
-	if err != nil {
-		log.Fatal().Msg("Could not init ollama client")
-	}
+	//// init ollama
+	//client, err := api.ClientFromEnvironment()
+	//if err != nil {
+	//	log.Fatal().Msg("Could not init ollama client")
+	//}
+	//
+	//// ollama request payload
+	//req := &api.GenerateRequest{
+	//	Model:  ollamaModel,
+	//	Prompt: prompt,
+	//}
+	//
+	//// render results
+	//ctx := context.Background()
+	//respFunc := func(resp api.GenerateResponse) error {
+	//	fmt.Print(resp.Response)
+	//	return nil
+	//}
+	//
+	//// main
+	//err = client.Generate(ctx, req, respFunc)
+	//if err != nil {
+	//	log.Error().Msg("Could not summarize article")
+	//}
 
-	// ollama request payload
-	req := &api.GenerateRequest{
-		Model:  ollamaModel,
-		Prompt: prompt,
-	}
-
-	// render results
 	ctx := context.Background()
-	respFunc := func(resp api.GenerateResponse) error {
-		fmt.Print(resp.Response)
-		return nil
-	}
-
-	// main
-	err = client.Generate(ctx, req, respFunc)
+	client, err := genai.NewClient(ctx, option.WithAPIKey(AppConfig.GoogleAIApiKey))
 	if err != nil {
-		log.Error().Msg("Could not summarize article")
+		log.Fatal().Err(err).Msg("Failed to create GOOGLE AI client")
+	}
+	defer client.Close()
+
+	model := client.GenerativeModel("gemini-1.5-flash")
+	iter := model.GenerateContentStream(ctx, genai.Text(prompt))
+
+	for {
+		resp, err := iter.Next()
+		if err == iterator.Done {
+			break
+		}
+		if err != nil {
+			log.Fatal().Err(err).Msg("Failed to generate text")
+		}
+
+		if resp.Candidates != nil {
+			for _, v := range resp.Candidates {
+				for _, k := range v.Content.Parts {
+					fmt.Print(k.(genai.Text))
+				}
+			}
+		}
 	}
 }

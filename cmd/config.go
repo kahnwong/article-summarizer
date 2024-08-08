@@ -10,7 +10,7 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-func readConfig() WallabagConfig {
+func readConfig() Config {
 	homeDir, err := os.UserHomeDir()
 	if err != nil {
 		log.Error().Err(err)
@@ -25,7 +25,7 @@ func readConfig() WallabagConfig {
 		os.Exit(1)
 	}
 
-	var config WallabagConfig
+	var config Config
 
 	data, err := decrypt.File(filename, "yaml")
 	if err != nil {

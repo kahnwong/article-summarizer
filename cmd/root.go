@@ -15,6 +15,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var AppConfig = readConfig()
+
 var entryTitle string // for huh form
 
 var rootCmd = &cobra.Command{

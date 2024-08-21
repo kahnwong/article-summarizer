@@ -3,7 +3,7 @@ module github.com/kahnwong/article-summarizer
 go 1.22.2
 
 require (
-	github.com/Strubbl/wallabago/v9 v9.0.3
+	github.com/Strubbl/wallabago/v9 v9.0.4
 	github.com/charmbracelet/huh v0.5.2
 	github.com/getsops/sops/v3 v3.9.0
 	github.com/google/generative-ai-go v0.17.0

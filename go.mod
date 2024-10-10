@@ -1,7 +1,6 @@
 module github.com/kahnwong/article-summarizer
 
-go 1.22.2
-toolchain go1.23.1
+go 1.23.2
 
 require (
 	github.com/Strubbl/wallabago/v9 v9.0.5

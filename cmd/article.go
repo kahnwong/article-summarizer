@@ -4,8 +4,10 @@ import (
 	"context"
 	"fmt"
 	"strings"
+	"time"
 
 	"github.com/Strubbl/wallabago/v9"
+
 	"github.com/charmbracelet/huh"
 	"github.com/google/generative-ai-go/genai"
 	"github.com/rs/zerolog/log"
@@ -91,6 +93,7 @@ func summarize(content string, language string) {
 		if resp.Candidates != nil {
 			for _, v := range resp.Candidates {
 				for _, k := range v.Content.Parts {
+					time.Sleep(1 * time.Second)
 					fmt.Print(k.(genai.Text))
 				}
 			}

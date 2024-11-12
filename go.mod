@@ -3,7 +3,7 @@ module github.com/kahnwong/article-summarizer
 go 1.23.2
 
 require (
-	github.com/Strubbl/wallabago/v9 v9.0.6
+	github.com/Strubbl/wallabago/v9 v9.0.7
 	github.com/charmbracelet/huh v0.6.0
 	github.com/getsops/sops/v3 v3.9.1
 	github.com/google/generative-ai-go v0.18.0
@@ -126,10 +126,10 @@ require (
 	golang.org/x/crypto v0.28.0 // indirect
 	golang.org/x/net v0.30.0 // indirect
 	golang.org/x/oauth2 v0.23.0 // indirect
-	golang.org/x/sync v0.8.0 // indirect
+	golang.org/x/sync v0.9.0 // indirect
 	golang.org/x/sys v0.26.0 // indirect
 	golang.org/x/term v0.25.0 // indirect
-	golang.org/x/text v0.19.0 // indirect
+	golang.org/x/text v0.20.0 // indirect
 	golang.org/x/time v0.7.0 // indirect
 	google.golang.org/genproto v0.0.0-20241021214115-324edc3d5d38 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20241015192408-796eee8c2d53 // indirect

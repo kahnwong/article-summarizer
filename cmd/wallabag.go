@@ -24,11 +24,11 @@ func init() {
 	wallabago.SetConfig(wallabagConfig)
 }
 
-func getEntries() ([]wallabago.Item, error) {
+func GetEntries() ([]wallabago.Item, error) {
 	// get newest 5 articles
 	entries, err := wallabago.GetEntries(
 		wallabago.APICall,
-		0, 0, "", "", 1, 5, "", 0, -1, "", "")
+		0, 0, "", "", 1, 1, "", 0, -1, "", "")
 
 	return entries.Embedded.Items, err
 }

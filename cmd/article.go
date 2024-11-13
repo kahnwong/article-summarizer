@@ -3,10 +3,8 @@ package cmd
 import (
 	"context"
 	"fmt"
-	"strings"
-	"time"
-
 	"github.com/Strubbl/wallabago/v9"
+	"strings"
 
 	"github.com/charmbracelet/huh"
 	"github.com/google/generative-ai-go/genai"
@@ -25,7 +23,7 @@ func createFormOptions(entries []wallabago.Item) []huh.Option[string] {
 	return options
 }
 
-func detectLanguage(content string) string {
+func DetectLanguage(content string) string {
 	var language string
 	if !strings.Contains(content, "ก") {
 		language = "English"
@@ -36,10 +34,10 @@ func detectLanguage(content string) string {
 	return language
 }
 
-func summarize(content string, language string) {
+func Summarize(content string, language string) string {
 	// set parameters
 	//ollamaModel := "kahnwong/gemma-1.1:7b-it"
-	prompt := fmt.Sprintf("summarize following text into four paragraphs: %s.", content)
+	prompt := fmt.Sprintf("summarize following text into four paragraphs: %s. Response would be within 100 words.", content)
 
 	if language == "Thai" {
 		prompt += "Respond in Thai language."
@@ -81,6 +79,7 @@ func summarize(content string, language string) {
 	model := client.GenerativeModel("gemini-1.5-flash")
 	iter := model.GenerateContentStream(ctx, genai.Text(prompt))
 
+	response := ""
 	for {
 		resp, err := iter.Next()
 		if err == iterator.Done {
@@ -93,10 +92,13 @@ func summarize(content string, language string) {
 		if resp.Candidates != nil {
 			for _, v := range resp.Candidates {
 				for _, k := range v.Content.Parts {
-					time.Sleep(1 * time.Second)
-					fmt.Print(k.(genai.Text))
+					//time.Sleep(1 * time.Second)
+					//fmt.Print(k.(genai.Text))
+					response += string(k.(genai.Text))
 				}
 			}
 		}
 	}
+
+	return response
 }

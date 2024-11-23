@@ -10,7 +10,7 @@ require (
 	github.com/microcosm-cc/bluemonday v1.0.27
 	github.com/rs/zerolog v1.33.0
 	github.com/spf13/cobra v1.8.1
-	google.golang.org/api v0.207.0
+	google.golang.org/api v0.208.0
 	gopkg.in/yaml.v3 v3.0.1
 )
 

@@ -6,7 +6,7 @@ require (
 	github.com/Strubbl/wallabago/v9 v9.0.7
 	github.com/charmbracelet/huh v0.6.0
 	github.com/getsops/sops/v3 v3.9.2
-	github.com/google/generative-ai-go v0.18.0
+	github.com/google/generative-ai-go v0.19.0
 	github.com/microcosm-cc/bluemonday v1.0.27
 	github.com/rs/zerolog v1.33.0
 	github.com/spf13/cobra v1.8.1

@@ -76,7 +76,7 @@ var rootCmd = &cobra.Command{
 			content,
 		)
 
-		core.Summarize(contentSanitized, core.DetectLanguage(content))
+		core.Summarize(contentSanitized, core.DetectLanguage(content), "cli")
 	},
 }
 

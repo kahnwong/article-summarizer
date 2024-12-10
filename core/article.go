@@ -23,7 +23,7 @@ func DetectLanguage(content string) string {
 	return language
 }
 
-func Summarize(content string, language string) {
+func Summarize(content string, language string, mode string) string {
 	// set parameters
 	//ollamaModel := "kahnwong/gemma-1.1:7b-it"
 	prompt := fmt.Sprintf("summarize following text into four paragraphs: %s.", content)
@@ -68,6 +68,7 @@ func Summarize(content string, language string) {
 	model := client.GenerativeModel("gemini-1.5-flash")
 	iter := model.GenerateContentStream(ctx, genai.Text(prompt))
 
+	var output string
 	for {
 		resp, err := iter.Next()
 		if err == iterator.Done {
@@ -80,10 +81,16 @@ func Summarize(content string, language string) {
 		if resp.Candidates != nil {
 			for _, v := range resp.Candidates {
 				for _, k := range v.Content.Parts {
-					time.Sleep(1 * time.Second)
-					fmt.Print(k.(genai.Text))
+					if mode == "cli" {
+						time.Sleep(1 * time.Second)
+						fmt.Print(k.(genai.Text))
+					} else {
+						output += fmt.Sprint(k.(genai.Text))
+					}
 				}
 			}
 		}
 	}
+
+	return output
 }

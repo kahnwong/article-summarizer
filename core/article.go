@@ -1,4 +1,4 @@
-package cmd
+package core
 
 import (
 	"context"
@@ -6,26 +6,13 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Strubbl/wallabago/v9"
-
-	"github.com/charmbracelet/huh"
 	"github.com/google/generative-ai-go/genai"
 	"github.com/rs/zerolog/log"
 	"google.golang.org/api/iterator"
 	"google.golang.org/api/option"
 )
 
-func createFormOptions(entries []wallabago.Item) []huh.Option[string] {
-	var options []huh.Option[string]
-
-	for _, v := range entries {
-		options = append(options, huh.NewOption(v.Title, v.Title))
-	}
-
-	return options
-}
-
-func detectLanguage(content string) string {
+func DetectLanguage(content string) string {
 	var language string
 	if !strings.Contains(content, "ก") {
 		language = "English"
@@ -36,7 +23,7 @@ func detectLanguage(content string) string {
 	return language
 }
 
-func summarize(content string, language string) {
+func Summarize(content string, language string) {
 	// set parameters
 	//ollamaModel := "kahnwong/gemma-1.1:7b-it"
 	prompt := fmt.Sprintf("summarize following text into four paragraphs: %s.", content)

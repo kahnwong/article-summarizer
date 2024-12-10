@@ -1,4 +1,4 @@
-package cmd
+package core
 
 import (
 	"fmt"
@@ -9,6 +9,17 @@ import (
 	"github.com/rs/zerolog/log"
 	"gopkg.in/yaml.v3"
 )
+
+var AppConfig = readConfig() // init
+
+type Config struct {
+	WallabagUrl    string `yaml:"WALLABAG_URL"`
+	ClientID       string `yaml:"CLIENT_ID"`
+	ClientSecret   string `yaml:"CLIENT_SECRET"`
+	Username       string `yaml:"USERNAME"`
+	Password       string `yaml:"PASSWORD"`
+	GoogleAIApiKey string `yaml:"GOOGLE_AI_API_KEY"`
+}
 
 func readConfig() Config {
 	homeDir, err := os.UserHomeDir()

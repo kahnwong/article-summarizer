@@ -7,27 +7,40 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/Strubbl/wallabago/v9"
+	"github.com/spf13/cobra"
+
 	"github.com/rs/zerolog/log"
 
 	"github.com/microcosm-cc/bluemonday"
 
 	"github.com/charmbracelet/huh"
-	"github.com/spf13/cobra"
+	"github.com/kahnwong/article-summarizer/core"
 )
-
-var AppConfig = readConfig()
 
 var entryTitle string // for huh form
 
+// functions
+func createFormOptions(entries []wallabago.Item) []huh.Option[string] {
+	var options []huh.Option[string]
+
+	for _, v := range entries {
+		options = append(options, huh.NewOption(v.Title, v.Title))
+	}
+
+	return options
+}
+
+// main
 var rootCmd = &cobra.Command{
 	Use:   "article-summarizer",
 	Short: "Summarize an article with LLM",
 	Run: func(cmd *cobra.Command, args []string) {
 		// Clears the screen
-		ClearScreen()
+		core.ClearScreen()
 
 		// ------------ get entries ------------ //
-		entries, err := getEntries()
+		entries, err := core.GetEntries()
 		if err != nil {
 			log.Fatal().Err(err).Msg("Cannot obtain articles from Wallabag")
 		}
@@ -63,7 +76,7 @@ var rootCmd = &cobra.Command{
 			content,
 		)
 
-		summarize(contentSanitized, detectLanguage(content))
+		core.Summarize(contentSanitized, core.DetectLanguage(content))
 	},
 }
 

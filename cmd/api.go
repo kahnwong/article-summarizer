@@ -20,7 +20,7 @@ func rootController(c *fiber.Ctx) error {
 	// ------------ get entries ------------ //
 	entries, err := core.GetEntries()
 	if err != nil {
-		log.Fatal().Err(err).Msg("Cannot obtain articles from Wallabag")
+		log.Fatal().Msg("Cannot obtain articles from Wallabag")
 	}
 
 	// ------------ get title and content ------------ //
@@ -56,7 +56,7 @@ var apiCmd = &cobra.Command{
 
 		// error handling
 		if err := app.Listen(":3000"); err != nil {
-			logger.Fatal().Err(err).Msg("Fiber app error")
+			logger.Fatal().Msg("Fiber app error")
 		}
 	},
 }

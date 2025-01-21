@@ -61,7 +61,7 @@ func Summarize(content string, language string, mode string) string {
 	ctx := context.Background()
 	client, err := genai.NewClient(ctx, option.WithAPIKey(AppConfig.GoogleAIApiKey))
 	if err != nil {
-		log.Fatal().Err(err).Msg("Failed to create GOOGLE AI client")
+		log.Fatal().Msg("Failed to create GOOGLE AI client")
 	}
 	defer client.Close()
 
@@ -75,7 +75,7 @@ func Summarize(content string, language string, mode string) string {
 			break
 		}
 		if err != nil {
-			log.Fatal().Err(err).Msg("Failed to generate text")
+			log.Fatal().Msg("Failed to generate text")
 		}
 
 		if resp.Candidates != nil {

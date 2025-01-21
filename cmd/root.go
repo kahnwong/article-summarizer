@@ -42,7 +42,7 @@ var rootCmd = &cobra.Command{
 		// ------------ get entries ------------ //
 		entries, err := core.GetEntries()
 		if err != nil {
-			log.Fatal().Err(err).Msg("Cannot obtain articles from Wallabag")
+			log.Fatal().Msg("Cannot obtain articles from Wallabag")
 		}
 
 		// ------------ select article ------------ //

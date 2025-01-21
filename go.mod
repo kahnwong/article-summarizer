@@ -1,19 +1,18 @@
 module github.com/kahnwong/article-summarizer
 
-go 1.23.2
+go 1.23.5
 
 require (
 	github.com/Strubbl/wallabago/v9 v9.0.8
 	github.com/charmbracelet/huh v0.6.0
-	github.com/getsops/sops/v3 v3.9.3
 	github.com/gofiber/contrib/fiberzerolog v1.0.2
 	github.com/gofiber/fiber/v2 v2.52.6
 	github.com/google/generative-ai-go v0.19.0
+	github.com/kahnwong/cli-base v0.0.0-20250121060804-3c9e867df1e8
 	github.com/microcosm-cc/bluemonday v1.0.27
 	github.com/rs/zerolog v1.33.0
 	github.com/spf13/cobra v1.8.1
 	google.golang.org/api v0.217.0
-	gopkg.in/yaml.v3 v3.0.1
 )
 
 require (
@@ -84,6 +83,7 @@ require (
 	github.com/fatih/color v1.18.0 // indirect
 	github.com/felixge/httpsnoop v1.0.4 // indirect
 	github.com/getsops/gopgagent v0.0.0-20241224165529-7044f28e491e // indirect
+	github.com/getsops/sops/v3 v3.9.3 // indirect
 	github.com/go-jose/go-jose/v4 v4.0.4 // indirect
 	github.com/go-logr/logr v1.4.2 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
@@ -156,4 +156,5 @@ require (
 	google.golang.org/grpc v1.69.4 // indirect
 	google.golang.org/protobuf v1.36.2 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
+	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

@@ -12,7 +12,7 @@ require (
 	github.com/microcosm-cc/bluemonday v1.0.27
 	github.com/rs/zerolog v1.33.0
 	github.com/spf13/cobra v1.8.1
-	google.golang.org/api v0.218.0
+	google.golang.org/api v0.219.0
 )
 
 require (
@@ -152,9 +152,9 @@ require (
 	golang.org/x/time v0.9.0 // indirect
 	google.golang.org/genproto v0.0.0-20241223144023-3abc09e42ca8 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20241223144023-3abc09e42ca8 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20250115164207-1a7da9e5054f // indirect
-	google.golang.org/grpc v1.69.4 // indirect
-	google.golang.org/protobuf v1.36.3 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20250124145028-65684f501c47 // indirect
+	google.golang.org/grpc v1.70.0 // indirect
+	google.golang.org/protobuf v1.36.4 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

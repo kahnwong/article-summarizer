@@ -6,7 +6,7 @@ require (
 	github.com/Strubbl/wallabago/v9 v9.0.10
 	github.com/charmbracelet/huh v0.7.0
 	github.com/gofiber/contrib/fiberzerolog v1.0.3
-	github.com/gofiber/fiber/v2 v2.52.7
+	github.com/gofiber/fiber/v2 v2.52.8
 	github.com/google/generative-ai-go v0.20.1
 	github.com/kahnwong/cli-base v0.0.0-20250121091831-4eeecf72423f
 	github.com/microcosm-cc/bluemonday v1.0.27

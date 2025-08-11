@@ -3,7 +3,7 @@ module github.com/kahnwong/article-summarizer
 go 1.23.5
 
 require (
-	github.com/Strubbl/wallabago/v9 v9.0.13
+	github.com/Strubbl/wallabago/v9 v9.0.15
 	github.com/charmbracelet/huh v0.7.0
 	github.com/gofiber/contrib/fiberzerolog v1.0.3
 	github.com/gofiber/fiber/v2 v2.52.8

@@ -65,7 +65,7 @@ func Summarize(content string, language string, mode string) string {
 	}
 	defer client.Close()
 
-	model := client.GenerativeModel("gemini-1.5-flash")
+	model := client.GenerativeModel("gemini-2.5-flash-lite")
 	iter := model.GenerateContentStream(ctx, genai.Text(prompt))
 
 	var output string

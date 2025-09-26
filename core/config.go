@@ -1,7 +1,7 @@
 package core
 
 import (
-	cliBase "github.com/kahnwong/cli-base"
+	cliBase "github.com/kahnwong/cli-base-sops"
 )
 
 type Config struct {

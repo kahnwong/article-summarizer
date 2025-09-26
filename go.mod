@@ -8,7 +8,7 @@ require (
 	github.com/gofiber/contrib/fiberzerolog v1.0.3
 	github.com/gofiber/fiber/v2 v2.52.9
 	github.com/google/generative-ai-go v0.20.1
-	github.com/kahnwong/cli-base v0.0.0-20250506033212-029722a13b47
+	github.com/kahnwong/cli-base-sops v0.0.0-20250911030916-09b2c1bcd75d
 	github.com/microcosm-cc/bluemonday v1.0.27
 	github.com/rs/zerolog v1.34.0
 	github.com/spf13/cobra v1.10.1
@@ -109,6 +109,7 @@ require (
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/hashicorp/vault/api v1.16.0 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
+	github.com/kahnwong/cli-base v0.0.0-20250814120046-dde1e03ae9dd // indirect
 	github.com/klauspost/compress v1.17.9 // indirect
 	github.com/kylelemons/godebug v1.1.0 // indirect
 	github.com/lib/pq v1.10.9 // indirect

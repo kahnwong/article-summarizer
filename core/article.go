@@ -6,10 +6,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/google/generative-ai-go/genai"
 	"github.com/rs/zerolog/log"
-	"google.golang.org/api/iterator"
-	"google.golang.org/api/option"
+	"google.golang.org/genai"
 )
 
 func DetectLanguage(content string) string {
@@ -59,34 +57,28 @@ func Summarize(content string, language string, mode string) string {
 	//}
 
 	ctx := context.Background()
-	client, err := genai.NewClient(ctx, option.WithAPIKey(AppConfig.GoogleAIApiKey))
+	client, err := genai.NewClient(ctx, &genai.ClientConfig{
+		APIKey:  AppConfig.GoogleAIApiKey,
+		Backend: genai.BackendGeminiAPI,
+	})
 	if err != nil {
 		log.Fatal().Msg("Failed to create GOOGLE AI client")
 	}
-	defer client.Close()
-
-	model := client.GenerativeModel("gemini-2.5-flash-lite")
-	iter := model.GenerateContentStream(ctx, genai.Text(prompt))
 
 	var output string
-	for {
-		resp, err := iter.Next()
-		if err == iterator.Done {
-			break
-		}
+	for resp, err := range client.Models.GenerateContentStream(ctx, "gemini-2.5-flash-lite", genai.Text(prompt), nil) {
 		if err != nil {
-			log.Fatal().Msg("Failed to generate text")
+			log.Fatal().Err(err).Msg("Failed to generate text")
 		}
 
-		if resp.Candidates != nil {
-			for _, v := range resp.Candidates {
-				for _, k := range v.Content.Parts {
-					if mode == "cli" {
-						time.Sleep(1 * time.Second)
-						fmt.Print(k.(genai.Text))
-					} else {
-						output += fmt.Sprint(k.(genai.Text))
-					}
+		for _, candidate := range resp.Candidates {
+			for _, part := range candidate.Content.Parts {
+				text := part.Text
+				if mode == "cli" {
+					time.Sleep(1 * time.Second)
+					fmt.Print(text)
+				} else {
+					output += text
 				}
 			}
 		}

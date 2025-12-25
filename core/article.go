@@ -66,7 +66,7 @@ func Summarize(content string, language string, mode string) string {
 	}
 
 	var output string
-	for resp, err := range client.Models.GenerateContentStream(ctx, "gemini-2.5-flash-lite", genai.Text(prompt), nil) {
+	for resp, err := range client.Models.GenerateContentStream(ctx, "gemini-3-flash-preview", genai.Text(prompt), nil) {
 		if err != nil {
 			log.Fatal().Err(err).Msg("Failed to generate text")
 		}

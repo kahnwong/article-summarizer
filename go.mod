@@ -3,7 +3,7 @@ module github.com/kahnwong/article-summarizer
 go 1.25.1
 
 require (
-	github.com/Strubbl/wallabago/v9 v9.0.19
+	github.com/Strubbl/wallabago/v9 v9.0.20
 	github.com/charmbracelet/huh v0.8.0
 	github.com/gofiber/contrib/fiberzerolog v1.0.3
 	github.com/gofiber/fiber/v2 v2.52.10
@@ -154,7 +154,7 @@ require (
 	golang.org/x/sync v0.19.0 // indirect
 	golang.org/x/sys v0.38.0 // indirect
 	golang.org/x/term v0.37.0 // indirect
-	golang.org/x/text v0.32.0 // indirect
+	golang.org/x/text v0.33.0 // indirect
 	golang.org/x/time v0.14.0 // indirect
 	google.golang.org/api v0.257.0 // indirect
 	google.golang.org/genproto v0.0.0-20250603155806-513f23925822 // indirect

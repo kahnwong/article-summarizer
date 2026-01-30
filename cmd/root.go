@@ -37,7 +37,9 @@ var rootCmd = &cobra.Command{
 	Short: "Summarize an article with LLM",
 	Run: func(cmd *cobra.Command, args []string) {
 		// Clears the screen
-		core.ClearScreen()
+		if err := core.ClearScreen(); err != nil {
+			log.Fatal().Err(err).Msg("Failed to clear screen")
+		}
 
 		// ------------ get entries ------------ //
 		entries, err := core.GetEntries()
@@ -76,7 +78,9 @@ var rootCmd = &cobra.Command{
 			content,
 		)
 
-		core.Summarize(contentSanitized, core.DetectLanguage(content), "cli")
+		if _, err := core.Summarize(contentSanitized, core.DetectLanguage(content), "cli"); err != nil {
+			log.Fatal().Err(err).Msg("Failed to summarize article")
+		}
 	},
 }
 

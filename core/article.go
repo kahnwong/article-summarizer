@@ -6,7 +6,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/rs/zerolog/log"
 	"google.golang.org/genai"
 )
 
@@ -21,40 +20,13 @@ func DetectLanguage(content string) string {
 	return language
 }
 
-func Summarize(content string, language string, mode string) string {
+func Summarize(content string, language string, mode string) (string, error) {
 	// set parameters
-	//ollamaModel := "kahnwong/gemma-1.1:7b-it"
 	prompt := fmt.Sprintf("summarize following text into four paragraphs: %s.", content)
 
 	if language == "Thai" {
 		prompt += "Respond in Thai language."
-		//	ollamaModel = "kahnwong/typhoon-1.5:8b"
 	}
-
-	//// init ollama
-	//client, err := api.ClientFromEnvironment()
-	//if err != nil {
-	//	log.Fatal().Msg("Could not init ollama client")
-	//}
-	//
-	//// ollama request payload
-	//req := &api.GenerateRequest{
-	//	Model:  ollamaModel,
-	//	Prompt: prompt,
-	//}
-	//
-	//// render results
-	//ctx := context.Background()
-	//respFunc := func(resp api.GenerateResponse) error {
-	//	fmt.Print(resp.Response)
-	//	return nil
-	//}
-	//
-	//// main
-	//err = client.Generate(ctx, req, respFunc)
-	//if err != nil {
-	//	log.Error().Msg("Could not summarize article")
-	//}
 
 	ctx := context.Background()
 	client, err := genai.NewClient(ctx, &genai.ClientConfig{
@@ -62,13 +34,13 @@ func Summarize(content string, language string, mode string) string {
 		Backend: genai.BackendGeminiAPI,
 	})
 	if err != nil {
-		log.Fatal().Msg("Failed to create GOOGLE AI client")
+		return "", fmt.Errorf("failed to create GOOGLE AI client: %w", err)
 	}
 
 	var output string
 	for resp, err := range client.Models.GenerateContentStream(ctx, "gemini-3-flash-preview", genai.Text(prompt), nil) {
 		if err != nil {
-			log.Fatal().Err(err).Msg("Failed to generate text")
+			return "", fmt.Errorf("failed to generate text: %w", err)
 		}
 
 		for _, candidate := range resp.Candidates {
@@ -84,5 +56,5 @@ func Summarize(content string, language string, mode string) string {
 		}
 	}
 
-	return output
+	return output, nil
 }

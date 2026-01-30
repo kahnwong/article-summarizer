@@ -2,6 +2,7 @@ package core
 
 import (
 	cliBase "github.com/kahnwong/cli-base-sops"
+	"github.com/rs/zerolog/log"
 )
 
 type Config struct {
@@ -13,4 +14,12 @@ type Config struct {
 	GoogleAIApiKey string `yaml:"GOOGLE_AI_API_KEY"`
 }
 
-var AppConfig = cliBase.ReadYamlSops[Config]("~/.config/article-summarizer/config.sops.yaml") // init
+var AppConfig *Config
+
+func init() {
+	config, err := cliBase.ReadYamlSops[Config]("~/.config/article-summarizer/config.sops.yaml")
+	if err != nil {
+		log.Fatal().Err(err).Msg("Failed to read config")
+	}
+	AppConfig = config
+}

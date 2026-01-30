@@ -12,7 +12,6 @@ import (
 	"github.com/kahnwong/article-summarizer/core"
 	"github.com/microcosm-cc/bluemonday"
 	"github.com/rs/zerolog"
-	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
 )
 
@@ -20,7 +19,7 @@ func rootController(c *fiber.Ctx) error {
 	// ------------ get entries ------------ //
 	entries, err := core.GetEntries()
 	if err != nil {
-		log.Fatal().Msg("Cannot obtain articles from Wallabag")
+		return fmt.Errorf("cannot obtain articles from Wallabag: %w", err)
 	}
 
 	// ------------ get title and content ------------ //
@@ -34,7 +33,10 @@ func rootController(c *fiber.Ctx) error {
 		content,
 	)
 
-	output := core.Summarize(contentSanitized, core.DetectLanguage(content), "api")
+	output, err := core.Summarize(contentSanitized, core.DetectLanguage(content), "api")
+	if err != nil {
+		return fmt.Errorf("failed to summarize article: %w", err)
+	}
 
 	return c.SendString(fmt.Sprintf("===== %s =====\n%s", title, output))
 }

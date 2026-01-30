@@ -7,7 +7,7 @@ require (
 	github.com/charmbracelet/huh v0.8.0
 	github.com/gofiber/contrib/fiberzerolog v1.0.3
 	github.com/gofiber/fiber/v2 v2.52.10
-	github.com/kahnwong/cli-base-sops v0.0.0-20260101103628-5a04a14e92ee
+	github.com/kahnwong/cli-base-sops v0.0.0-20260130162717-4a615df3370f
 	github.com/microcosm-cc/bluemonday v1.0.27
 	github.com/rs/zerolog v1.34.0
 	github.com/spf13/cobra v1.10.2
@@ -108,7 +108,7 @@ require (
 	github.com/hashicorp/hcl v1.0.1-vault-7 // indirect
 	github.com/hashicorp/vault/api v1.21.0 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
-	github.com/kahnwong/cli-base v0.0.0-20250814120046-dde1e03ae9dd // indirect
+	github.com/kahnwong/cli-base v0.0.0-20260130142944-47fb95a69ad9 // indirect
 	github.com/klauspost/compress v1.17.9 // indirect
 	github.com/kylelemons/godebug v1.1.0 // indirect
 	github.com/lib/pq v1.10.9 // indirect

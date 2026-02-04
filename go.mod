@@ -6,7 +6,8 @@ require (
 	github.com/Strubbl/wallabago/v9 v9.0.20
 	github.com/charmbracelet/huh v0.8.0
 	github.com/gofiber/contrib/fiberzerolog v1.0.3
-	github.com/gofiber/fiber/v2 v2.52.11
+	github.com/gofiber/fiber/v2 v2.52.6
+	github.com/gofiber/fiber/v3 v3.0.0
 	github.com/kahnwong/cli-base-sops v0.0.0-20260130184704-f74848815081
 	github.com/microcosm-cc/bluemonday v1.0.27
 	github.com/rs/zerolog v1.34.0

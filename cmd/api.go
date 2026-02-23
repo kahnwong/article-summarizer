@@ -4,22 +4,23 @@ Copyright © 2024 Karn Wong <karn@karnwong.me>
 package cmd
 
 import (
-	"fmt"
+	"net/http"
 	"os"
 
-	"github.com/gofiber/contrib/fiberzerolog"
-	"github.com/gofiber/fiber/v2"
+	"github.com/gin-contrib/logger"
+	"github.com/gin-gonic/gin"
 	"github.com/kahnwong/article-summarizer/core"
 	"github.com/microcosm-cc/bluemonday"
 	"github.com/rs/zerolog"
 	"github.com/spf13/cobra"
 )
 
-func rootController(c *fiber.Ctx) error {
+func rootController(c *gin.Context) {
 	// ------------ get entries ------------ //
 	entries, err := core.GetEntries()
 	if err != nil {
-		return fmt.Errorf("cannot obtain articles from Wallabag: %w", err)
+		c.String(http.StatusInternalServerError, "cannot obtain articles from Wallabag: %v", err)
+		return
 	}
 
 	// ------------ get title and content ------------ //
@@ -35,10 +36,11 @@ func rootController(c *fiber.Ctx) error {
 
 	output, err := core.Summarize(contentSanitized, core.DetectLanguage(content), "api")
 	if err != nil {
-		return fmt.Errorf("failed to summarize article: %w", err)
+		c.String(http.StatusInternalServerError, "failed to summarize article: %v", err)
+		return
 	}
 
-	return c.SendString(fmt.Sprintf("===== %s =====\n%s", title, output))
+	c.String(http.StatusOK, "===== %s =====\n%s", title, output)
 }
 
 var apiCmd = &cobra.Command{
@@ -46,19 +48,19 @@ var apiCmd = &cobra.Command{
 	Short: "Serve summarization as API",
 	Run: func(cmd *cobra.Command, args []string) {
 		// app
-		app := fiber.New()
-		logger := zerolog.New(os.Stderr).With().Timestamp().Logger()
+		app := gin.New()
+		log := zerolog.New(os.Stderr).With().Timestamp().Logger()
 
-		app.Use(fiberzerolog.New(fiberzerolog.Config{
-			Logger: &logger,
-		}))
+		app.Use(logger.SetLogger(logger.WithLogger(func(_ *gin.Context, l zerolog.Logger) zerolog.Logger {
+			return log
+		})))
 
 		// routes
-		app.Get("/", rootController)
+		app.GET("/", rootController)
 
 		// error handling
-		if err := app.Listen(":3000"); err != nil {
-			logger.Fatal().Msg("Fiber app error")
+		if err := app.Run(":3000"); err != nil {
+			log.Fatal().Msg("Gin app error")
 		}
 	},
 }

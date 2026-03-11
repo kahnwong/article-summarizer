@@ -4,7 +4,7 @@ go 1.25.1
 
 require (
 	github.com/Strubbl/wallabago/v9 v9.0.21
-	github.com/charmbracelet/huh v0.8.0
+	github.com/charmbracelet/huh/v2 v2.0.3
 	github.com/gin-contrib/logger v1.2.6
 	github.com/gin-gonic/gin v1.11.0
 	github.com/kahnwong/cli-base-sops v0.0.0-20260130184704-f74848815081

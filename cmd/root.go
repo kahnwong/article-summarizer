@@ -14,7 +14,7 @@ import (
 
 	"github.com/microcosm-cc/bluemonday"
 
-	"github.com/charmbracelet/huh"
+	"charm.land/huh/v2"
 	"github.com/kahnwong/article-summarizer/core"
 )
 

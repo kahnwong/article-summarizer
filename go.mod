@@ -5,7 +5,7 @@ go 1.25.8
 require (
 	charm.land/huh/v2 v2.0.3
 	github.com/Strubbl/wallabago/v9 v9.0.22
-	github.com/gin-contrib/logger v1.2.6
+	github.com/gin-contrib/logger v1.2.7
 	github.com/gin-gonic/gin v1.12.0
 	github.com/kahnwong/cli-base-sops v0.0.0-20260130184704-f74848815081
 	github.com/microcosm-cc/bluemonday v1.0.27

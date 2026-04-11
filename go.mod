@@ -4,7 +4,7 @@ go 1.25.8
 
 require (
 	charm.land/huh/v2 v2.0.3
-	github.com/Strubbl/wallabago/v9 v9.0.22
+	github.com/Strubbl/wallabago/v9 v9.0.23
 	github.com/gin-contrib/logger v1.2.7
 	github.com/gin-gonic/gin v1.12.0
 	github.com/kahnwong/cli-base-sops v0.0.0-20260130184704-f74848815081
@@ -177,7 +177,7 @@ require (
 	golang.org/x/sync v0.20.0 // indirect
 	golang.org/x/sys v0.42.0 // indirect
 	golang.org/x/term v0.40.0 // indirect
-	golang.org/x/text v0.35.0 // indirect
+	golang.org/x/text v0.36.0 // indirect
 	golang.org/x/time v0.14.0 // indirect
 	google.golang.org/api v0.267.0 // indirect
 	google.golang.org/genproto v0.0.0-20260217215200-42d3e9bedb6d // indirect

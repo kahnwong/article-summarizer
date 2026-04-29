@@ -9,9 +9,9 @@ require (
 	github.com/gin-gonic/gin v1.12.0
 	github.com/kahnwong/cli-base-sops v0.0.0-20260130184704-f74848815081
 	github.com/microcosm-cc/bluemonday v1.0.27
-	github.com/rs/zerolog v1.35.0
+	github.com/rs/zerolog v1.35.1
 	github.com/spf13/cobra v1.10.2
-	google.golang.org/genai v1.52.0
+	google.golang.org/genai v1.54.0
 )
 
 require (

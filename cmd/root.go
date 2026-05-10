@@ -13,14 +13,14 @@ import (
 	slogzerolog "github.com/samber/slog-zerolog/v2"
 	"github.com/spf13/cobra"
 
-	"github.com/microcosm-cc/bluemonday"
-
 	"charm.land/huh/v2"
 	"github.com/kahnwong/article-summarizer/core"
 )
 
 var entryTitle string
 var markAsRead bool
+
+var wallabagClient = core.NewWallabagClient()
 
 // functions
 func createFormOptions(entries []wallabago.Item) []huh.Option[string] {
@@ -45,7 +45,7 @@ var rootCmd = &cobra.Command{
 		}
 
 		// ------------ get entries ------------ //
-		entries, err := core.GetEntries()
+		entries, err := wallabagClient.GetEntries()
 		if err != nil {
 			slog.Error("Cannot obtain articles from Wallabag")
 			os.Exit(1)
@@ -71,21 +71,14 @@ var rootCmd = &cobra.Command{
 		// ------------ summarize ------------ //
 		fmt.Printf("========== %s ==========\n", entryTitle)
 
-		var content string
-		var entryID int
+		var selectedEntry wallabago.Item
 		for _, entry := range entries {
 			if entry.Title == entryTitle {
-				content = entry.Content
-				entryID = entry.ID
+				selectedEntry = entry
 			}
 		}
 
-		p := bluemonday.StripTagsPolicy()
-		contentSanitized := p.Sanitize(
-			content,
-		)
-
-		if _, err := core.Summarize(contentSanitized, core.DetectLanguage(content), "cli"); err != nil {
+		if _, err := core.SummarizeArticle(selectedEntry, "cli"); err != nil {
 			slog.Error("Failed to summarize article", "error", err)
 			os.Exit(1)
 		}
@@ -105,7 +98,7 @@ var rootCmd = &cobra.Command{
 		}
 
 		if markAsRead {
-			if err := core.MarkEntryAsRead(entryID); err != nil {
+			if err := wallabagClient.MarkEntryAsRead(selectedEntry.ID); err != nil {
 				slog.Error("Failed to mark entry as read", "error", err)
 				os.Exit(1)
 			}

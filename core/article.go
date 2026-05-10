@@ -6,8 +6,16 @@ import (
 	"strings"
 
 	"charm.land/glamour/v2"
+	"github.com/Strubbl/wallabago/v9"
+	"github.com/microcosm-cc/bluemonday"
 	"google.golang.org/genai"
 )
+
+func SummarizeArticle(entry wallabago.Item, mode string) (string, error) {
+	p := bluemonday.StripTagsPolicy()
+	contentSanitized := p.Sanitize(entry.Content)
+	return Summarize(contentSanitized, DetectLanguage(entry.Content), mode)
+}
 
 func DetectLanguage(content string) string {
 	var language string

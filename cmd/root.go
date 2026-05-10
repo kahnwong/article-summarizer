@@ -19,7 +19,8 @@ import (
 	"github.com/kahnwong/article-summarizer/core"
 )
 
-var entryTitle string // for huh form
+var entryTitle string
+var markAsRead bool
 
 // functions
 func createFormOptions(entries []wallabago.Item) []huh.Option[string] {
@@ -71,9 +72,11 @@ var rootCmd = &cobra.Command{
 		fmt.Printf("========== %s ==========\n", entryTitle)
 
 		var content string
+		var entryID int
 		for _, entry := range entries {
 			if entry.Title == entryTitle {
 				content = entry.Content
+				entryID = entry.ID
 			}
 		}
 
@@ -85,6 +88,27 @@ var rootCmd = &cobra.Command{
 		if _, err := core.Summarize(contentSanitized, core.DetectLanguage(content), "cli"); err != nil {
 			slog.Error("Failed to summarize article", "error", err)
 			os.Exit(1)
+		}
+
+		formMarkAsRead := huh.NewForm(
+			huh.NewGroup(
+				huh.NewConfirm().
+					Title("Mark article as read?").
+					Value(&markAsRead).
+					Affirmative("Yes").
+					Negative("No"),
+			),
+		)
+		if err := formMarkAsRead.Run(); err != nil {
+			slog.Error("Form error", "error", err)
+			os.Exit(1)
+		}
+
+		if markAsRead {
+			if err := core.MarkEntryAsRead(entryID); err != nil {
+				slog.Error("Failed to mark entry as read", "error", err)
+				os.Exit(1)
+			}
 		}
 	},
 }

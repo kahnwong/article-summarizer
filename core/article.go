@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 	"strings"
-	"time"
 
+	"github.com/charmbracelet/glamour"
 	"google.golang.org/genai"
 )
 
@@ -45,15 +45,18 @@ func Summarize(content string, language string, mode string) (string, error) {
 
 		for _, candidate := range resp.Candidates {
 			for _, part := range candidate.Content.Parts {
-				text := part.Text
-				if mode == "cli" {
-					time.Sleep(1 * time.Second)
-					fmt.Print(text)
-				} else {
-					output += text
-				}
+				output += part.Text
 			}
 		}
+	}
+
+	if mode == "cli" {
+		rendered, err := glamour.Render(output, "auto")
+		if err != nil {
+			return "", fmt.Errorf("failed to render markdown: %w", err)
+		}
+		fmt.Print(rendered)
+		return "", nil
 	}
 
 	return output, nil

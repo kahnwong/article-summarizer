@@ -5,7 +5,7 @@ go 1.26.3
 require (
 	charm.land/glamour/v2 v2.0.0
 	charm.land/huh/v2 v2.0.3
-	github.com/Strubbl/wallabago/v9 v9.0.23
+	github.com/Strubbl/wallabago/v9 v9.0.24
 	github.com/gin-contrib/logger v1.2.7
 	github.com/gin-gonic/gin v1.12.0
 	github.com/kahnwong/cli-base-sops v0.0.0-20260510143248-ef95c3ba4803

@@ -83,6 +83,7 @@ var rootCmd = &cobra.Command{
 			os.Exit(1)
 		}
 
+		// ------------ mark as read ------------ //
 		formMarkAsRead := huh.NewForm(
 			huh.NewGroup(
 				huh.NewConfirm().
@@ -102,6 +103,7 @@ var rootCmd = &cobra.Command{
 				slog.Error("Failed to mark entry as read", "error", err)
 				os.Exit(1)
 			}
+			fmt.Println("Marked article as read")
 		}
 	},
 }

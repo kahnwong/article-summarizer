@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/charmbracelet/glamour"
+	"charm.land/glamour/v2"
 	"google.golang.org/genai"
 )
 
@@ -51,7 +51,7 @@ func Summarize(content string, language string, mode string) (string, error) {
 	}
 
 	if mode == "cli" {
-		rendered, err := glamour.Render(output, "auto")
+		rendered, err := glamour.RenderWithEnvironmentConfig(output)
 		if err != nil {
 			return "", fmt.Errorf("failed to render markdown: %w", err)
 		}

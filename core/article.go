@@ -22,7 +22,7 @@ func DetectLanguage(content string) string {
 
 func Summarize(content string, language string, mode string) (string, error) {
 	// set parameters
-	prompt := fmt.Sprintf("summarize following text into four paragraphs: %s.", content)
+	prompt := fmt.Sprintf("Please summarize the text using precise and concise language. Use headers and bulleted lists in the summary, to make it scannable. Maintain the meaning and factual accuracy. %s.", content)
 
 	if language == "Thai" {
 		prompt += "Respond in Thai language."

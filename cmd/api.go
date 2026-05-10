@@ -4,14 +4,13 @@ Copyright © 2024 Karn Wong <karn@karnwong.me>
 package cmd
 
 import (
+	"log/slog"
 	"net/http"
-	"os"
 
 	"github.com/gin-contrib/logger"
 	"github.com/gin-gonic/gin"
 	"github.com/kahnwong/article-summarizer/core"
 	"github.com/microcosm-cc/bluemonday"
-	"github.com/rs/zerolog"
 	"github.com/spf13/cobra"
 )
 
@@ -49,18 +48,14 @@ var apiCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		// app
 		app := gin.New()
-		log := zerolog.New(os.Stderr).With().Timestamp().Logger()
-
-		app.Use(logger.SetLogger(logger.WithLogger(func(_ *gin.Context, l zerolog.Logger) zerolog.Logger {
-			return log
-		})))
+		app.Use(logger.SetLogger())
 
 		// routes
 		app.GET("/", rootController)
 
 		// error handling
 		if err := app.Run(":3000"); err != nil {
-			log.Fatal().Msg("Gin app error")
+			slog.Error("Gin app error", "error", err)
 		}
 	},
 }

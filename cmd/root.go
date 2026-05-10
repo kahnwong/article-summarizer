@@ -5,12 +5,13 @@ package cmd
 
 import (
 	"fmt"
+	"log/slog"
 	"os"
 
 	"github.com/Strubbl/wallabago/v9"
+	"github.com/rs/zerolog"
+	slogzerolog "github.com/samber/slog-zerolog/v2"
 	"github.com/spf13/cobra"
-
-	"github.com/rs/zerolog/log"
 
 	"github.com/microcosm-cc/bluemonday"
 
@@ -38,13 +39,15 @@ var rootCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		// Clears the screen
 		if err := core.ClearScreen(); err != nil {
-			log.Fatal().Err(err).Msg("Failed to clear screen")
+			slog.Error("Failed to clear screen", "error", err)
+			os.Exit(1)
 		}
 
 		// ------------ get entries ------------ //
 		entries, err := core.GetEntries()
 		if err != nil {
-			log.Fatal().Msg("Cannot obtain articles from Wallabag")
+			slog.Error("Cannot obtain articles from Wallabag")
+			os.Exit(1)
 		}
 
 		// ------------ select article ------------ //
@@ -60,7 +63,8 @@ var rootCmd = &cobra.Command{
 		)
 		err = formEntries.Run()
 		if err != nil {
-			log.Fatal().Err(err)
+			slog.Error("Form error", "error", err)
+			os.Exit(1)
 		}
 
 		// ------------ summarize ------------ //
@@ -79,7 +83,8 @@ var rootCmd = &cobra.Command{
 		)
 
 		if _, err := core.Summarize(contentSanitized, core.DetectLanguage(content), "cli"); err != nil {
-			log.Fatal().Err(err).Msg("Failed to summarize article")
+			slog.Error("Failed to summarize article", "error", err)
+			os.Exit(1)
 		}
 	},
 }
@@ -87,10 +92,15 @@ var rootCmd = &cobra.Command{
 func Execute() {
 	err := rootCmd.Execute()
 	if err != nil {
+		slog.Error("Command failed", "error", err)
 		os.Exit(1)
 	}
 }
 
 func init() {
+	output := zerolog.ConsoleWriter{Out: os.Stderr}
+	logger := zerolog.New(output).With().Timestamp().Logger()
+	slog.SetDefault(slog.New(slogzerolog.Option{Logger: &logger}.NewZerologHandler()))
+
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

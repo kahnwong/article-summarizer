@@ -348,6 +348,8 @@ github.com/kahnwong/cli-base v0.0.0-20260430124253-310ea2400611 h1:K7kcMHPHA6Njs
 github.com/kahnwong/cli-base v0.0.0-20260430124253-310ea2400611/go.mod h1:IQFXAz3QjyAPnaSPy2it6cLwZPaxSS0K9l/vfE22vQM=
 github.com/kahnwong/cli-base-sops v0.0.0-20260510143248-ef95c3ba4803 h1:gyM28Nz9Az9gI0j3NiZ38BFzEb/dYll+tF+A6IAteOI=
 github.com/kahnwong/cli-base-sops v0.0.0-20260510143248-ef95c3ba4803/go.mod h1:xdYOXvrNTQKBQxjOuW0PbUj1L22KeGUGa6jvvG5cwQ0=
+github.com/kahnwong/cli-base-sops v0.0.0-20260510152952-2b3c177f4b1f h1:0Wk/LdN9EyJ2DtgtoXga4s2aMRukz8mJ4XrhDvtT5xw=
+github.com/kahnwong/cli-base-sops v0.0.0-20260510152952-2b3c177f4b1f/go.mod h1:KCV7pzd23FZqboXEQEIG9fqTdFId6lHotZpr28TE4RM=
 github.com/keybase/go-keychain v0.0.1 h1:way+bWYa6lDppZoZcgMbYsvC7GxljxrskdNInRtuthU=
 github.com/keybase/go-keychain v0.0.1/go.mod h1:PdEILRW3i9D8JcdM+FmY6RwkHGnhHxXwkPPMeUgOK1k=
 github.com/klauspost/compress v1.13.6/go.mod h1:/3/Vjq9QcHkK5uEr5lBEmyoZ1iFhe47etQ6QUkpK6sk=

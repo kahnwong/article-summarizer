@@ -3,9 +3,9 @@ module github.com/kahnwong/article-summarizer
 go 1.26.3
 
 require (
-	charm.land/glamour/v2 v2.0.0
+	charm.land/glamour/v2 v2.0.1
 	charm.land/huh/v2 v2.0.3
-	github.com/Strubbl/wallabago/v9 v9.0.24
+	github.com/Strubbl/wallabago/v9 v9.0.25
 	github.com/gin-contrib/logger v1.2.7
 	github.com/gin-gonic/gin v1.12.0
 	github.com/kahnwong/cli-base-sops v0.0.0-20260510152952-2b3c177f4b1f
@@ -13,14 +13,14 @@ require (
 	github.com/rs/zerolog v1.35.1
 	github.com/samber/slog-zerolog/v2 v2.9.2
 	github.com/spf13/cobra v1.10.2
-	google.golang.org/genai v1.58.0
+	google.golang.org/genai v1.61.0
 )
 
 require (
 	cel.dev/expr v0.25.2 // indirect
 	charm.land/bubbles/v2 v2.0.0 // indirect
 	charm.land/bubbletea/v2 v2.0.2 // indirect
-	charm.land/lipgloss/v2 v2.0.1 // indirect
+	charm.land/lipgloss/v2 v2.0.4 // indirect
 	cloud.google.com/go v0.123.0 // indirect
 	cloud.google.com/go/auth v0.20.0 // indirect
 	cloud.google.com/go/auth/oauth2adapt v0.2.8 // indirect
@@ -73,7 +73,7 @@ require (
 	github.com/catppuccin/go v0.3.0 // indirect
 	github.com/cenkalti/backoff/v4 v4.3.0 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
-	github.com/charmbracelet/colorprofile v0.4.2 // indirect
+	github.com/charmbracelet/colorprofile v0.4.3 // indirect
 	github.com/charmbracelet/ultraviolet v0.0.0-20260205113103-524a6607adb8 // indirect
 	github.com/charmbracelet/x/ansi v0.11.7 // indirect
 	github.com/charmbracelet/x/exp/ordered v0.1.0 // indirect
@@ -183,10 +183,10 @@ require (
 	golang.org/x/crypto v0.51.0 // indirect
 	golang.org/x/net v0.54.0 // indirect
 	golang.org/x/oauth2 v0.36.0 // indirect
-	golang.org/x/sync v0.20.0 // indirect
-	golang.org/x/sys v0.44.0 // indirect
+	golang.org/x/sync v0.21.0 // indirect
+	golang.org/x/sys v0.45.0 // indirect
 	golang.org/x/term v0.43.0 // indirect
-	golang.org/x/text v0.37.0 // indirect
+	golang.org/x/text v0.38.0 // indirect
 	golang.org/x/time v0.15.0 // indirect
 	google.golang.org/api v0.278.0 // indirect
 	google.golang.org/genproto v0.0.0-20260504160031-60b97b32f348 // indirect

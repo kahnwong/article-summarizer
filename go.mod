@@ -8,7 +8,7 @@ require (
 	github.com/Strubbl/wallabago/v9 v9.0.25
 	github.com/gin-contrib/logger v1.2.7
 	github.com/gin-gonic/gin v1.12.0
-	github.com/kahnwong/cli-base-sops v0.0.0-20260510152952-2b3c177f4b1f
+	github.com/kahnwong/cli-base-sops v0.0.0-20260710034950-2f3f4da61ace
 	github.com/microcosm-cc/bluemonday v1.0.27
 	github.com/rs/zerolog v1.35.1
 	github.com/samber/slog-zerolog/v2 v2.9.2

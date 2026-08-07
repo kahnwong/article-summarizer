@@ -14,7 +14,7 @@ require (
 	github.com/rs/zerolog v1.35.1
 	github.com/samber/slog-zerolog/v2 v2.9.2
 	github.com/spf13/cobra v1.10.2
-	google.golang.org/genai v1.66.0
+	google.golang.org/genai v1.67.0
 )
 
 require (

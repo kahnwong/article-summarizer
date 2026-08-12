@@ -6,8 +6,10 @@ package cmd
 import (
 	"fmt"
 	"log/slog"
+	"net/url"
 	"os"
 
+	"charm.land/lipgloss/v2"
 	"github.com/Strubbl/wallabago/v9"
 	"github.com/rs/zerolog"
 	slogzerolog "github.com/samber/slog-zerolog/v2"
@@ -25,9 +27,17 @@ var wallabagClient = core.NewWallabagClient()
 // functions
 func createFormOptions(entries []wallabago.Item) []huh.Option[string] {
 	var options []huh.Option[string]
+	gray := lipgloss.NewStyle().Foreground(lipgloss.Color("8"))
 
 	for _, v := range entries {
-		options = append(options, huh.NewOption(v.Title, v.Title))
+		articleURL, err := url.Parse(v.URL)
+		if err != nil || articleURL.Scheme == "" || articleURL.Host == "" {
+			options = append(options, huh.NewOption(v.Title, v.Title))
+			continue
+		}
+
+		label := fmt.Sprintf("%s %s", v.Title, gray.Render("("+articleURL.Host+")"))
+		options = append(options, huh.NewOption(label, v.Title))
 	}
 
 	return options

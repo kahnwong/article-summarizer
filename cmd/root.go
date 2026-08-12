@@ -4,6 +4,7 @@ Copyright © 2026 Karn Wong <karn@karnwong.me>
 package cmd
 
 import (
+	"errors"
 	"fmt"
 	"log/slog"
 	"net/url"
@@ -76,6 +77,9 @@ var rootCmd = &cobra.Command{
 			)
 			err = formEntries.Run()
 			if err != nil {
+				if errors.Is(err, huh.ErrUserAborted) {
+					return
+				}
 				slog.Error("Form error", "error", err)
 				os.Exit(1)
 			}
@@ -107,6 +111,9 @@ var rootCmd = &cobra.Command{
 				),
 			)
 			if err := formMarkAsRead.Run(); err != nil {
+				if errors.Is(err, huh.ErrUserAborted) {
+					return
+				}
 				slog.Error("Form error", "error", err)
 				os.Exit(1)
 			}

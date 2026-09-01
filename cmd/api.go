@@ -4,21 +4,23 @@ Copyright © 2026 Karn Wong <karn@karnwong.me>
 package cmd
 
 import (
+	"fmt"
 	"log/slog"
-	"net/http"
 
-	"github.com/gin-contrib/logger"
-	"github.com/gin-gonic/gin"
+	"github.com/gofiber/fiber/v3"
+	"github.com/gofiber/fiber/v3/middleware/recover"
 	"github.com/kahnwong/article-summarizer/core"
+	slogfiber "github.com/samber/slog-fiber"
 	"github.com/spf13/cobra"
 )
 
-func rootController(c *gin.Context) {
+func rootController(c fiber.Ctx) error {
 	// ------------ get entries ------------ //
 	entries, err := wallabagClient.GetEntries()
 	if err != nil {
-		c.String(http.StatusInternalServerError, "cannot obtain articles from Wallabag: %v", err)
-		return
+		return c.Status(fiber.StatusInternalServerError).SendString(
+			fmt.Sprintf("cannot obtain articles from Wallabag: %v", err),
+		)
 	}
 
 	// ------------ get title and content ------------ //
@@ -27,11 +29,12 @@ func rootController(c *gin.Context) {
 	// ------------ summarize ------------ //
 	output, err := core.SummarizeArticle(entry, "api")
 	if err != nil {
-		c.String(http.StatusInternalServerError, "failed to summarize article: %v", err)
-		return
+		return c.Status(fiber.StatusInternalServerError).SendString(
+			fmt.Sprintf("failed to summarize article: %v", err),
+		)
 	}
 
-	c.String(http.StatusOK, "===== %s =====\n%s", entry.Title, output)
+	return c.SendString(fmt.Sprintf("===== %s =====\n%s", entry.Title, output))
 }
 
 var apiCmd = &cobra.Command{
@@ -39,15 +42,16 @@ var apiCmd = &cobra.Command{
 	Short: "Serve summarization as API",
 	Run: func(cmd *cobra.Command, args []string) {
 		// app
-		app := gin.New()
-		app.Use(logger.SetLogger())
+		app := fiber.New()
+		app.Use(slogfiber.New(slog.Default()))
+		app.Use(recover.New())
 
 		// routes
-		app.GET("/", rootController)
+		app.Get("/", rootController)
 
 		// error handling
-		if err := app.Run(":3000"); err != nil {
-			slog.Error("Gin app error", "error", err)
+		if err := app.Listen(":3000"); err != nil {
+			slog.Error("Fiber app error", "error", err)
 		}
 	},
 }

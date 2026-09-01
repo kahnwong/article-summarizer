@@ -1,8 +1,9 @@
 package core
 
 import (
+	"fmt"
+
 	cliBase "github.com/kahnwong/cli-base-sops"
-	"github.com/rs/zerolog/log"
 )
 
 type Config struct {
@@ -16,10 +17,12 @@ type Config struct {
 
 var AppConfig *Config
 
-func init() {
+func LoadConfig() error {
 	config, err := cliBase.ReadYamlSops[Config]("~/.config/article-summarizer/config.sops.yaml")
 	if err != nil {
-		log.Fatal().Err(err).Msg("Failed to read config")
+		return fmt.Errorf("failed to read config: %w", err)
 	}
+
 	AppConfig = config
+	return nil
 }

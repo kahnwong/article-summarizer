@@ -23,7 +23,7 @@ import (
 var entryTitle string
 var markAsRead bool
 
-var wallabagClient = core.NewWallabagClient()
+var wallabagClient core.WallabagClient
 
 // functions
 func createFormOptions(entries []wallabago.Item) []huh.Option[string] {
@@ -131,6 +131,17 @@ var rootCmd = &cobra.Command{
 }
 
 func Execute() {
+	if err := configureLogger(); err != nil {
+		slog.Error("Failed to configure logger", "error", err)
+		os.Exit(1)
+	}
+
+	if err := core.LoadConfig(); err != nil {
+		slog.Error("Failed to load config", "error", err)
+		os.Exit(1)
+	}
+	wallabagClient = core.NewWallabagClient()
+
 	err := rootCmd.Execute()
 	if err != nil {
 		slog.Error("Command failed", "error", err)
@@ -138,10 +149,32 @@ func Execute() {
 	}
 }
 
-func init() {
-	output := zerolog.ConsoleWriter{Out: os.Stderr}
-	logger := zerolog.New(output).With().Timestamp().Logger()
-	slog.SetDefault(slog.New(slogzerolog.Option{Logger: &logger}.NewZerologHandler()))
+func configureLogger() error {
+	level, err := parseLogLevel(os.Getenv("LOG_LEVEL"))
 
+	output := zerolog.ConsoleWriter{Out: os.Stderr}
+	zerologLogger := zerolog.New(output)
+	logger := slog.New(slogzerolog.Option{
+		Level:  level,
+		Logger: &zerologLogger,
+	}.NewZerologHandler())
+	slog.SetDefault(logger)
+
+	return err
+}
+
+func parseLogLevel(value string) (slog.Level, error) {
+	level := slog.LevelDebug
+	if value == "" {
+		return level, nil
+	}
+
+	if err := level.UnmarshalText([]byte(value)); err != nil {
+		return slog.LevelDebug, fmt.Errorf("invalid LOG_LEVEL %q: %w", value, err)
+	}
+	return level, nil
+}
+
+func init() {
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

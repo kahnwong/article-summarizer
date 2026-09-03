@@ -6,7 +6,7 @@ require (
 	charm.land/glamour/v2 v2.0.1
 	charm.land/huh/v2 v2.0.3
 	charm.land/lipgloss/v2 v2.0.6
-	github.com/Strubbl/wallabago/v9 v9.0.26
+	github.com/Strubbl/wallabago/v9 v9.0.27
 	github.com/gofiber/fiber/v3 v3.5.0
 	github.com/kahnwong/cli-base-sops v0.0.0-20260710034950-2f3f4da61ace
 	github.com/microcosm-cc/bluemonday v1.0.27
@@ -14,7 +14,7 @@ require (
 	github.com/samber/slog-fiber v1.22.2
 	github.com/samber/slog-zerolog/v2 v2.9.2
 	github.com/spf13/cobra v1.10.2
-	google.golang.org/genai v1.69.0
+	google.golang.org/genai v1.71.0
 )
 
 require (
@@ -175,7 +175,7 @@ require (
 	golang.org/x/sync v0.22.0 // indirect
 	golang.org/x/sys v0.47.0 // indirect
 	golang.org/x/term v0.45.0 // indirect
-	golang.org/x/text v0.40.0 // indirect
+	golang.org/x/text v0.41.0 // indirect
 	golang.org/x/time v0.15.0 // indirect
 	google.golang.org/api v0.278.0 // indirect
 	google.golang.org/genproto v0.0.0-20260504160031-60b97b32f348 // indirect

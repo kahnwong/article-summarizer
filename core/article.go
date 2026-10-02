@@ -9,6 +9,8 @@ import (
 	"github.com/Strubbl/wallabago/v9"
 	"github.com/microcosm-cc/bluemonday"
 	"google.golang.org/genai"
+	"google.golang.org/genai/interactions/models/interactions"
+	"google.golang.org/genai/interactions/models/operations"
 )
 
 func SummarizeArticle(entry wallabago.Item, mode string) (string, error) {
@@ -38,28 +40,43 @@ func Summarize(content string, language string, mode string) (string, error) {
 
 	ctx := context.Background()
 	client, err := genai.NewClient(ctx, &genai.ClientConfig{
-		APIKey:  AppConfig.GoogleAIApiKey,
+		APIKey:  AppConfig.GoogleApiKey,
 		Backend: genai.BackendGeminiAPI,
 	})
 	if err != nil {
 		return "", fmt.Errorf("failed to create GOOGLE AI client: %w", err)
 	}
 
-	var output string
-	for resp, err := range client.Models.GenerateContentStream(ctx, "gemini-3.1-flash-lite", genai.Text(prompt), nil) {
-		if err != nil {
-			return "", fmt.Errorf("failed to generate text: %w", err)
-		}
+	res, err := client.Interactions.Create(ctx, operations.CreateInteractionRequest{
+		Body: operations.NewCreateInteractionRequestBody(interactions.CreateModelInteraction{
+			Model:  interactions.Model(AppConfig.ModelName),
+			Input:  new(interactions.NewInteractionsInput(prompt)),
+			Stream: new(true),
+		}),
+	})
+	if err != nil {
+		return "", fmt.Errorf("failed to create interaction: %w", err)
+	}
 
-		for _, candidate := range resp.Candidates {
-			for _, part := range candidate.Content.Parts {
-				output += part.Text
-			}
+	eventStream := res.InteractionSSEStreamEvent
+	if eventStream == nil {
+		return "", fmt.Errorf("failed to create interaction stream")
+	}
+	defer eventStream.Close()
+
+	var output strings.Builder
+	for eventStream.Next() {
+		textDelta := eventStream.Value().GetDataStepDelta().GetDeltaText()
+		if textDelta != nil {
+			output.WriteString(textDelta.Text)
 		}
+	}
+	if err := eventStream.Err(); err != nil {
+		return "", fmt.Errorf("failed to generate text: %w", err)
 	}
 
 	if mode == "cli" {
-		rendered, err := glamour.RenderWithEnvironmentConfig(output)
+		rendered, err := glamour.RenderWithEnvironmentConfig(output.String())
 		if err != nil {
 			return "", fmt.Errorf("failed to render markdown: %w", err)
 		}
@@ -67,5 +84,5 @@ func Summarize(content string, language string, mode string) (string, error) {
 		return "", nil
 	}
 
-	return output, nil
+	return output.String(), nil
 }

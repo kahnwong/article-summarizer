@@ -14,7 +14,7 @@ require (
 	github.com/samber/slog-fiber v1.22.2
 	github.com/samber/slog-zerolog/v2 v2.9.2
 	github.com/spf13/cobra v1.10.2
-	google.golang.org/genai v1.72.0
+	google.golang.org/genai v1.73.0
 )
 
 require (
